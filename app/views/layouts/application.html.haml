@@ -3,8 +3,44 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Translation
+    %link{:crossorigin => "anonymous", :href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css", :integrity => "sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=", :rel => "stylesheet"}/
+
     = csrf_meta_tags
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    -# = stylesheet_link_tag    'application', media: 'all'
+    -# = javascript_include_tag 'application'
+  
   %body
+    - if flash[:notice]
+      .notification.is-info
+        %p.notice= notice
+    %end
+    - if flash[:alert]
+      .notification.is-denger
+        %p.alert= alert
+    %end
+
+    .navbar-item
+      %h1.title
+      %h1.is-4{style:'font-family: cursive;'}
+        %a{:href => "#"}
+          %img{alt: "font-toy-story-logo", border: "0", src: src="https://fontmeme.com/permalink/200505/72b082dd45e941f707008b7c694524e1.png", class: "head_title"}
+          %span
+          %span
+          %span
+        - if user_signed_in?
+          #navbarExampleTransparentExample.navbar-menu
+            .navbar-end
+              .navbar-item
+                .field.is-grouped
+                  %p.control
+                    = link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light"
+        - else
+          #navbarExampleTransparentExample.navbar-menu
+            .navbar-end
+              .navbar-item
+                .field.is-grouped
+                  %p.control
+                    = link_to "ログイン", new_user_session_path, class: "button is-warning is-light"
+                  %p.control
+                    = link_to "新規登録", new_user_registration_path, class: "button is-warning is-light"
     = yield
